@@ -2,7 +2,6 @@ package com.matheusromagit.workshopmongo.domain;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,9 +9,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.matheusromagit.workshopmongo.dto.AuthorDTO;
 
 @Document
-public class Post implements Serializable{
+public class Post implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	private String id;
 	private Date date;
@@ -21,7 +20,6 @@ public class Post implements Serializable{
 	private AuthorDTO author;
 	
 	public Post() {
-		super();
 	}
 
 	public Post(String id, Date date, String title, String body, AuthorDTO author) {
@@ -31,7 +29,6 @@ public class Post implements Serializable{
 		this.title = title;
 		this.body = body;
 		this.author = author;
-		
 	}
 
 	public String getId() {
@@ -73,10 +70,13 @@ public class Post implements Serializable{
 	public void setAuthor(AuthorDTO author) {
 		this.author = author;
 	}
-	
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 	@Override
@@ -88,8 +88,11 @@ public class Post implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Post other = (Post) obj;
-		return Objects.equals(id, other.id);
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
-
-	
 }
